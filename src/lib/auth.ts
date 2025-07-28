@@ -29,4 +29,8 @@ export const auth = betterAuth({
     schema,
   }),
   plugins: [nextCookies()],
+  trustedOrigins: [
+    'http://localhost:3000',
+    'https://nuvio-one.vercel.app',
+  ],
 });
