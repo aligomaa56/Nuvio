@@ -6,10 +6,8 @@ const getBaseURL = () => {
     return 'http://localhost:3000';
   }
   
-  // In production, use the Vercel URL
-  return process.env.NEXT_PUBLIC_VERCEL_URL 
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_BETTER_BASE_URL || '';
+  // In production, use the custom domain or fallback to main domain
+  return process.env.NEXT_PUBLIC_AUTH_BASE_URL;
 };
 
 export const authClient = createAuthClient({
