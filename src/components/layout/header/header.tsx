@@ -11,7 +11,7 @@ export const Header = () => {
             <div className="flex items-center gap-2">
               <Image
                 src="/logo.svg"
-                alt="NotePad Logo"
+                alt="Nuvio logo"
                 width={24}
                 height={24}
               />
