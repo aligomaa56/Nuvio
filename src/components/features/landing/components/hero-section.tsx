@@ -59,7 +59,7 @@ export default function HeroSection() {
                   <AnimatedTools />
                 </div>
                 <h1 className="max-w-3xl mx-auto text-balance text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-tight">
-                  <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+                  <span className="bg-gradient-to-r from-[#7a7a7a] via-[#51504f] to-[#676666] bg-clip-text text-transparent animate-pulse">
                     Nuvio
                   </span>{' '}
                   leads the way, one write is all it takes.
@@ -112,14 +112,14 @@ export default function HeroSection() {
                   href="https://aligomaa.engineer/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent font-medium hover:opacity-80 transition-opacity"
+                  className="bg-gradient-to-r from-[#7a7a7a] via-[#51504f] to-[#676666] bg-clip-text text-transparent font-medium hover:opacity-80 transition-opacity"
                 >
                   @aligomaa
                 </a>
               </p>
             </div>
             <Badge
-              className="rounded-full flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-blue-900 via-purple-800 to-cyan-900 text-white border-0 shadow-md hover:from-blue-700 hover:to-cyan-700 transition-colors cursor-pointer"
+              className="rounded-full flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-[#7a7a7a] via-[#51504f] to-[#676666] text-white border-0 shadow-md hover:from-[#2B2B2B]/80 hover:to-[#171010]/80 transition-colors cursor-pointer"
               asChild
             >
               <a
