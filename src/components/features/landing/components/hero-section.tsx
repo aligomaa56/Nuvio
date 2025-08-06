@@ -6,6 +6,8 @@ import { ArrowRight } from 'lucide-react';
 import { Header } from '@/components/layout/header/header';
 import { AnimatedTools } from '@/components/features/landing/components/animated-tools';
 import SpaceBackground from '@/components/features/landing/components/space-background';
+import { FaGithub } from 'react-icons/fa';
+import { Badge } from '@/components/ui/badge';
 
 const transitionVariants = {
   item: {
@@ -30,7 +32,7 @@ const transitionVariants = {
 export default function HeroSection() {
   return (
     <>
-      <main className="overflow-hidden h-screen bg-black text-white relative flex flex-col">
+      <main className="overflow-hidden min-h-screen bg-black text-white relative flex flex-col">
         <div className="hidden md:block">
           <SpaceBackground />
         </div>
@@ -102,8 +104,8 @@ export default function HeroSection() {
         </section>
 
         <footer className="relative z-8">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 py-2 sm:py-3 lg:py-4">
-            <div className="flex items-center justify-center sm:justify-start">
+          <div className="max-w-4xl px-6 mx-auto py-2 sm:py-3 lg:py-4 flex items-center justify-between">
+            <div className="flex items-center">
               <p className="text-white text-xs sm:text-sm lg:text-base">
                 Author:{' '}
                 <a
@@ -116,6 +118,20 @@ export default function HeroSection() {
                 </a>
               </p>
             </div>
+            <Badge
+              className="rounded-full flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-blue-900 via-purple-800 to-cyan-900 text-white border-0 shadow-md hover:from-blue-700 hover:to-cyan-700 transition-colors cursor-pointer"
+              asChild
+            >
+              <a
+                href="https://github.com/aligomaa56/Nuvio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Repository"
+              >
+                <FaGithub size={20} className="inline-block align-middle" />
+                <span className="ml-1 font-semibold">Contribute now</span>
+              </a>
+            </Badge>
           </div>
         </footer>
       </main>
