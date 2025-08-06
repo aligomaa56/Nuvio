@@ -1,4 +1,3 @@
-import { HeroHeader } from '@/components/layout/header/header';
 import Footer from '@/components/layout/footer/footer';
 import HeroSection from '@/components/features/landing/components/hero-section';
 import Features from '@/components/features/landing/components/features';
@@ -7,11 +6,11 @@ import CallToAction from '@/components/features/landing/components/call-to-actio
 export function LandingView() {
   return (
     <div>
-      <HeroHeader />
+      {/* <HeroHeader /> */}
       <HeroSection />
-      <Features />
+      {/* <Features />
       <CallToAction />
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }
