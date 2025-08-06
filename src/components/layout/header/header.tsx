@@ -24,9 +24,9 @@ export const Header = () => {
           {/* Login Button */}
           <Link
             href="/login"
-            className="hover:bg-background dark:hover:border-t-border bg-muted group flex w-fit items-center justify-center gap-5 rounded-full border px-3 py-1 shadow-lg shadow-zinc-950/10 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950 hover:scale-105"
+            className="hover:bg-foreground dark:hover:border-t-border bg-background group flex w-fit items-center justify-center gap-5 rounded-full border px-3 py-1 shadow-lg shadow-zinc-950/10 transition-all duration-300 dark:border-zinc-400 dark:shadow-zinc-950 hover:scale-105"
           >
-            <span className="text-foreground text-base font-medium">Login</span>
+            <span className="text-foreground text-base font-medium group-hover:text-black">Login</span>
           </Link>
         </div>
       </div>
