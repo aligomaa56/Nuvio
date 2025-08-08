@@ -76,6 +76,7 @@ export default function HeroSection() {
                 <Link
                   href="https://aligomaa.engineer/"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-gradient-to-r from-[#a6a6a6] to-[#6f6b6b] bg-clip-text text-transparent font-medium hover:text-muted-foreground transition-opacity"
                 >
                   @aligomaa
@@ -85,6 +86,7 @@ export default function HeroSection() {
             <Link
               href="https://github.com/aligomaa56/Nuvio"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <FaGithub size={18} />
             </Link>
