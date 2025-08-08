@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import { AuthSection } from './auth-section';
 
 export const Header = () => {
   return (
@@ -21,13 +21,8 @@ export const Header = () => {
             </span>
           </div>
 
-          {/* Login Button */}
-          <Link
-            href="/login"
-            className="hover:bg-foreground dark:hover:border-t-border bg-background group flex w-fit items-center justify-center gap-5 rounded-full border px-3 py-1 shadow-lg shadow-zinc-950/10 transition-all duration-300 dark:border-zinc-400 dark:shadow-zinc-950 hover:scale-105"
-          >
-            <span className="text-foreground text-base font-medium group-hover:text-black">Login</span>
-          </Link>
+          {/* Auth Section - Client Component */}
+          <AuthSection />
         </div>
       </div>
     </header>
