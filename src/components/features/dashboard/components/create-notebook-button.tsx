@@ -11,6 +11,8 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -34,7 +36,7 @@ const formSchema = z.object({
   name: z.string().min(2).max(50),
 });
 
-export const CreateNotebookButton = () => {
+export const CreateNotebookButton = ({ buttonClassName = "" }: { buttonClassName?: string }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -79,41 +81,44 @@ export const CreateNotebookButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="w-max">Create Notebook</Button>
+        <Button size="sm" className={`w-max ${buttonClassName}`}>Create Notebook</Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create Notebook</DialogTitle>
-          <DialogDescription>
-            Create a new notebook to store your notes.
-          </DialogDescription>
-        </DialogHeader>
+      <DialogPortal>
+        <DialogOverlay className="z-[1100]" />
+        <DialogContent className="z-[1100]">
+          <DialogHeader>
+            <DialogTitle>Create Notebook</DialogTitle>
+            <DialogDescription>
+              Create a new notebook to store your notes.
+            </DialogDescription>
+          </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="My Notebook" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={isLoading} type="submit">
-              {isLoading ? (
-                <Loader2 className="size-4 animate-spin" />
-              ) : (
-                "Create"
-              )}
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="My Notebook" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button disabled={isLoading} type="submit">
+                {isLoading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  "Create"
+                )}
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   );
 };
