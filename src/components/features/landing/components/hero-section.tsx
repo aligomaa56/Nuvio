@@ -1,33 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { TextEffect } from '@/components/ui/text-effect';
-import { AnimatedGroup } from '@/components/ui/animated-group';
 import { ArrowRight } from 'lucide-react';
 import { Header } from '@/components/layout/header/header';
 import { AnimatedTools } from '@/components/features/landing/components/animated-tools';
 import SpaceBackground from '@/components/features/landing/components/space-background';
 import { FaGithub } from 'react-icons/fa';
-import { Badge } from '@/components/ui/badge';
 
-const transitionVariants = {
-  item: {
-    hidden: {
-      opacity: 0,
-      filter: 'blur(12px)',
-      y: 12,
-    },
-    visible: {
-      opacity: 1,
-      filter: 'blur(0px)',
-      y: 0,
-      transition: {
-        type: 'spring' as const,
-        bounce: 0.3,
-        duration: 1.5,
-      },
-    },
-  },
-};
+import { BackgroundEffects } from './background-effects';
 
 export default function HeroSection() {
   return (
@@ -38,14 +17,7 @@ export default function HeroSection() {
         </div>
 
         {/* Background Effects */}
-        <div
-          aria-hidden
-          className="absolute inset-0 isolate hidden contain-strict lg:block"
-        >
-          <div className="w-140 h-320 -translate-y-87.5 absolute left-0 top-0 -rotate-45 rounded-full bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,85%,.08)_0,hsla(0,0%,55%,.02)_50%,hsla(0,0%,45%,0)_80%)]" />
-          <div className="h-320 absolute left-0 top-0 w-60 -rotate-45 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
-          <div className="h-320 -translate-y-87.5 absolute left-0 top-0 w-60 -rotate-45 bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.04)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)]" />
-        </div>
+        <BackgroundEffects />
 
         {/* Header */}
         <Header />
@@ -65,18 +37,11 @@ export default function HeroSection() {
                   leads the way, one write is all it takes.
                 </h1>
 
-                <TextEffect
-                  per="line"
-                  preset="fade-in-blur"
-                  speedSegment={0.3}
-                  delay={0.5}
-                  as="p"
-                  className="max-w-xl sm:max-w-2xl mx-auto text-pretty text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed px-4"
-                >
+                <p className="max-w-xl sm:max-w-2xl mx-auto text-pretty text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed px-4">
                   Think clearly. Stay organized. Revisit with ease.
-                </TextEffect>
+                </p>
 
-                <AnimatedGroup variants={transitionVariants} className="pt-1 sm:pt-2">
+                <div className="pt-1 sm:pt-2">
                   <Link
                     href="/login"
                     className="bg-white dark:border border group mx-auto flex w-fit items-center gap-3 sm:gap-4 lg:gap-5 rounded-full p-1 sm:p-1.5 pl-4 sm:pl-6 shadow-lg shadow-zinc-950/10 transition-all duration-300 dark:border-zinc-400 dark:shadow-zinc-950 hover:bg-black hover:text-white hover:scale-105"
@@ -97,7 +62,7 @@ export default function HeroSection() {
                       </div>
                     </div>
                   </Link>
-                </AnimatedGroup>
+                </div>
               </div>
             </div>
           </div>
@@ -108,30 +73,21 @@ export default function HeroSection() {
             <div className="flex items-center">
               <p className="text-white text-xs sm:text-sm lg:text-base">
                 Author:{' '}
-                <a
+                <Link
                   href="https://aligomaa.engineer/"
                   target="_blank"
-                  rel="noopener noreferrer"
                   className="bg-gradient-to-r from-[#a6a6a6] to-[#6f6b6b] bg-clip-text text-transparent font-medium hover:text-muted-foreground transition-opacity"
                 >
                   @aligomaa
-                </a>
+                </Link>
               </p>
             </div>
-            <Badge
-              className="rounded-full flex items-center px-2 py-1 bg-gradient-to-r from-[#4d4d4d] to-[#343434] text-white border-0 shadow-md hover:from-[#343434]/80 hover:to-[#4d4d4d]/80 transition-colors cursor-pointer"
-              asChild
+            <Link
+              href="https://github.com/aligomaa56/Nuvio"
+              target="_blank"
             >
-              <a
-                href="https://github.com/aligomaa56/Nuvio"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub Repository"
-              >
-                <FaGithub size={20} className="inline-block align-middle" />
-                <span className="ml-1 font-semibold">Contribute now</span>
-              </a>
-            </Badge>
+              <FaGithub size={18} />
+            </Link>
           </div>
         </footer>
       </main>
