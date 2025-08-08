@@ -7,6 +7,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
@@ -70,30 +72,33 @@ export function DeleteDialog({
           </Button>
         </DialogTrigger>
       )}
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>
-            {description} <strong>{name}</strong>. This action cannot be undone.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}>
-            Cancel
-          </Button>
-          <Button 
-            variant="destructive" 
-            onClick={handleDelete}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Loader2 className="size-4 animate-spin" />
-            ) : (
-              "Delete"
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      <DialogPortal>
+        <DialogOverlay className="z-[1300]" />
+        <DialogContent className="z-[1300]">
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>
+              {description} <strong>{name}</strong>. This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   )
 } 

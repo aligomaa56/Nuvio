@@ -45,7 +45,7 @@ export function ActionsDropdown({
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" className="z-[1300]">
           <DropdownMenuItem onClick={() => setIsUpdateOpen(true)}>
             <Edit className="mr-2 h-4 w-4" />
             Update

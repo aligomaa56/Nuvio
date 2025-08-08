@@ -9,6 +9,8 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
@@ -93,37 +95,40 @@ export function UpdateDialog({
           </Button>
         </DialogTrigger>
       )}
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
+      <DialogPortal>
+        <DialogOverlay className="z-[1300]" />
+        <DialogContent className="z-[1300]">
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter name..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={isLoading} type="submit">
-              {isLoading ? (
-                <Loader2 className="size-4 animate-spin" />
-              ) : (
-                "Update"
-              )}
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter name..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button disabled={isLoading} type="submit">
+                {isLoading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  "Update"
+                )}
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </DialogPortal>
     </Dialog>
   )
 } 
