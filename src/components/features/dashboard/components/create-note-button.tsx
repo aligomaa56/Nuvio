@@ -33,9 +33,10 @@ const formSchema = z.object({
 
 interface CreateNoteButtonProps {
   notebookId: string;
+  buttonClassName?: string;
 }
 
-export const CreateNoteButton = ({ notebookId }: CreateNoteButtonProps) => {
+export const CreateNoteButton = ({ notebookId, buttonClassName }: CreateNoteButtonProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +76,7 @@ export const CreateNoteButton = ({ notebookId }: CreateNoteButtonProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="w-max">Create Note</Button>
+        <Button size="sm" className={`w-max ${buttonClassName}`}>Create Note</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

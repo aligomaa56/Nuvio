@@ -24,6 +24,9 @@ export default function StackedCards({
 }) {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const isDragOperationRef = useRef(false);
+  const isInitializedRef = useRef(false);
   const [cardPositions, setCardPositions] = useState(() => {
     // We'll calculate the center position dynamically when the component mounts
     return cards.map((_, index) => ({
@@ -83,8 +86,10 @@ export default function StackedCards({
     setIsClient(true);
   }, []);
 
-  // Update cardOrder and cardPositions when cards array changes (e.g., after deletion)
+  // Initialize card positions when component first loads
   useEffect(() => {
+    if (!isClient || isInitializedRef.current) return; // Only run once after hydration
+    isInitializedRef.current = true;
     setCardOrder(cards.map((_, index) => index));
     const { centerX, centerY } = getCenterPosition();
     setCardPositions(
@@ -95,24 +100,33 @@ export default function StackedCards({
         isDragging: false,
       }))
     );
-  }, [cards, getCenterPosition]);
+  }, [isClient]); // Only depend on isClient
 
-  // Update card positions to be centered when component mounts
+  // Handle cards being added/removed (but not during drag operations)
   useEffect(() => {
-    const { centerX, centerY } = getCenterPosition();
-    setCardPositions(
-      cardsToRender.map((_, index) => ({
-        x: centerX + index * 8,
-        y: centerY + index * 8,
-      zIndex: cardsToRender.length - index,
-      isDragging: false,
-      }))
-    );
-  }, [getCenterPosition, cardsToRender]);
+    if (!isInitializedRef.current || isAnimatingRef.current || isDragOperationRef.current) return;
+    // Only reset if the number of cards actually changed
+    const currentCardCount = cardPositions.length;
+    if (currentCardCount !== cards.length) {
+      setCardOrder(cards.map((_, index) => index));
+      const { centerX, centerY } = getCenterPosition();
+      setCardPositions(
+        cards.map((_, index) => ({
+          x: centerX + index * 8,
+          y: centerY + index * 8,
+          zIndex: cards.length - index,
+          isDragging: false,
+        }))
+      );
+    }
+  }, [cards.length, cardPositions.length]); // Only depend on length changes
+
+
 
   // Handle window resize to recalculate center position
   useEffect(() => {
     const handleResize = () => {
+      if (isAnimatingRef.current || isDragOperationRef.current) return; // Prevent updates during animation/drag
       const { centerX, centerY } = getCenterPosition();
       setCardPositions((prev) =>
         prev.map((pos, index) => ({
@@ -125,7 +139,7 @@ export default function StackedCards({
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [getCenterPosition]);
+  }, []); // No dependencies - getCenterPosition is stable
 
   // Fast position update using requestAnimationFrame
   const updateCardPosition = useCallback((clientX: number, clientY: number) => {
@@ -217,6 +231,8 @@ export default function StackedCards({
         setCardPositions((prev) =>
           prev.map((pos) => ({ ...pos, isDragging: false }))
         );
+        isAnimatingRef.current = false; // Animation finished
+        isDragOperationRef.current = false; // Drag operation finished
         return;
       }
 
@@ -245,12 +261,14 @@ export default function StackedCards({
       Math.abs(currentVelocityX) > minVelocity ||
       Math.abs(currentVelocityY) > minVelocity
     ) {
+      isAnimatingRef.current = true; // Animation starting
       slideAnimation();
     } else {
       // No momentum, just stop dragging
       setCardPositions((prev) =>
         prev.map((pos) => ({ ...pos, isDragging: false }))
       );
+      isDragOperationRef.current = false; // Drag operation finished
     }
 
     dragRef.current.isDragging = false;
@@ -262,6 +280,9 @@ export default function StackedCards({
 
   const handleMouseDown = useCallback((e: MouseEvent, cardIndex: number) => {
     e.preventDefault();
+
+    // Mark that a drag operation is starting
+    isDragOperationRef.current = true;
 
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const container = document.getElementById('cards-container');
@@ -358,7 +379,7 @@ export default function StackedCards({
 
       return newOrder;
     });
-  }, [cardsToRender.length, getCenterPosition]);
+  }, [cardsToRender.length]); // Removed getCenterPosition dependency
 
   const previousCard = useCallback(() => {
     setCardOrder((prev) => {
@@ -406,7 +427,7 @@ export default function StackedCards({
 
       return newOrder;
     });
-  }, [cardsToRender.length, getCenterPosition]);
+  }, [cardsToRender.length]); // Removed getCenterPosition dependency
 
   // Touch event handlers for mobile
   const handleTouchStart = useCallback(
