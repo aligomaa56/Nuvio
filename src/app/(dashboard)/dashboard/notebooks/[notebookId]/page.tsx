@@ -2,6 +2,9 @@ import { NotebookView } from '@/components/features/dashboard';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { notebookMetadata } from '@/app/data/metadata';
+
+export const metadata = notebookMetadata;
 
 export default async function NotebookPage({
   params,

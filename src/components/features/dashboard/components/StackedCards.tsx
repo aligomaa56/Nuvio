@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CreateNotebookButton } from '@/components/features/dashboard/components/create-notebook-button';
@@ -86,9 +86,10 @@ export default function StackedCards({
     setIsClient(true);
   }, []);
 
-  // Initialize card positions when component first loads
   useEffect(() => {
     if (!isClient || isInitializedRef.current) return; // Only run once after hydration
+    if (cards.length === 0) return; // Don't initialize with empty cards
+    
     isInitializedRef.current = true;
     setCardOrder(cards.map((_, index) => index));
     const { centerX, centerY } = getCenterPosition();
@@ -100,14 +101,18 @@ export default function StackedCards({
         isDragging: false,
       }))
     );
-  }, [isClient]); // Only depend on isClient
+  }, [isClient]); // Only run when client is ready, ignore other dependencies to prevent re-initialization
 
+  // Track previous cards length to avoid dependency on cardPositions.length
+  const prevCardsLengthRef = useRef(cards.length);
+  
   // Handle cards being added/removed (but not during drag operations)
   useEffect(() => {
     if (!isInitializedRef.current || isAnimatingRef.current || isDragOperationRef.current) return;
+    
     // Only reset if the number of cards actually changed
-    const currentCardCount = cardPositions.length;
-    if (currentCardCount !== cards.length) {
+    if (prevCardsLengthRef.current !== cards.length) {
+      prevCardsLengthRef.current = cards.length;
       setCardOrder(cards.map((_, index) => index));
       const { centerX, centerY } = getCenterPosition();
       setCardPositions(
@@ -119,7 +124,7 @@ export default function StackedCards({
         }))
       );
     }
-  }, [cards.length, cardPositions.length]); // Only depend on length changes
+  }, [cards.length, getCenterPosition]); // Removed cardPositions.length dependency to prevent infinite loop
 
 
 
@@ -139,7 +144,20 @@ export default function StackedCards({
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []); // No dependencies - getCenterPosition is stable
+  }, [getCenterPosition]); // Include getCenterPosition dependency
+  
+  // Cleanup effect to stop animations on unmount
+  useEffect(() => {
+    return () => {
+      // Cancel any ongoing animation frame requests
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+      // Stop any ongoing animations
+      isAnimatingRef.current = false;
+      isDragOperationRef.current = false;
+    };
+  }, []);
 
   // Fast position update using requestAnimationFrame
   const updateCardPosition = useCallback((clientX: number, clientY: number) => {
@@ -221,11 +239,17 @@ export default function StackedCards({
 
     let currentVelocityX = velocityX * momentumMultiplier;
     let currentVelocityY = velocityY * momentumMultiplier;
+    let animationSteps = 0;
+    const maxAnimationSteps = 100; // Prevent infinite animations
 
     const slideAnimation = () => {
+      animationSteps++;
+      
       if (
-        Math.abs(currentVelocityX) < minVelocity &&
-        Math.abs(currentVelocityY) < minVelocity
+        (Math.abs(currentVelocityX) < minVelocity &&
+        Math.abs(currentVelocityY) < minVelocity) ||
+        animationSteps >= maxAnimationSteps ||
+        !isAnimatingRef.current // Safety check to stop if animation flag is cleared
       ) {
         // Stop sliding animation
         setCardPositions((prev) =>
@@ -240,20 +264,33 @@ export default function StackedCards({
       currentVelocityX *= friction;
       currentVelocityY *= friction;
 
-      // Update position with momentum
+      // Update position with momentum - only if not exceeding reasonable bounds
       setCardPositions((prev) =>
-        prev.map((pos, idx) =>
-          idx === cardIndex
-            ? { 
-                ...pos, 
-                x: pos.x + currentVelocityX,
-                y: pos.y + currentVelocityY,
-              }
-            : pos
-        )
+        prev.map((pos, idx) => {
+          if (idx !== cardIndex) return pos;
+          
+          const newX = pos.x + currentVelocityX;
+          const newY = pos.y + currentVelocityY;
+          
+          // Prevent positions from going extremely far off screen
+          const maxDistance = 2000;
+          if (Math.abs(newX) > maxDistance || Math.abs(newY) > maxDistance) {
+            // Stop animation if card goes too far
+            isAnimatingRef.current = false;
+            return { ...pos, isDragging: false };
+          }
+          
+          return { 
+            ...pos, 
+            x: newX,
+            y: newY,
+          };
+        })
       );
 
-      requestAnimationFrame(slideAnimation);
+      if (isAnimatingRef.current) {
+        requestAnimationFrame(slideAnimation);
+      }
     };
 
     // Start the sliding animation only if there's enough velocity
@@ -379,7 +416,7 @@ export default function StackedCards({
 
       return newOrder;
     });
-  }, [cardsToRender.length]); // Removed getCenterPosition dependency
+  }, [cardsToRender.length, getCenterPosition]); // Include getCenterPosition dependency
 
   const previousCard = useCallback(() => {
     setCardOrder((prev) => {
@@ -427,7 +464,7 @@ export default function StackedCards({
 
       return newOrder;
     });
-  }, [cardsToRender.length]); // Removed getCenterPosition dependency
+  }, [cardsToRender.length, getCenterPosition]); // Include getCenterPosition dependency
 
   // Touch event handlers for mobile
   const handleTouchStart = useCallback(
@@ -450,7 +487,7 @@ export default function StackedCards({
     if ((e.target as HTMLElement).closest('button')) {
       return;
     }
-    router.push(`/dashboard/notebook/${cardId}`);
+    router.push(`/dashboard/notebooks/${cardId}`);
   }, [router]);
 
   // Handle notebook update

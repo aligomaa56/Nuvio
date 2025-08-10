@@ -19,7 +19,7 @@ export function NoteTableRow({ note, notebookId }: NoteTableRowProps) {
     if ((e.target as HTMLElement).closest('button')) {
       return
     }
-    router.push(`/dashboard/notebook/${notebookId}/note/${note.id}`)
+    router.push(`/dashboard/notebooks/${notebookId}/note/${note.id}`)
   }
 
   const handleUpdateNote = async (id: string, values: { name: string }) => {

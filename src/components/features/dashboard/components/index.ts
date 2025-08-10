@@ -1,5 +1,3 @@
-export { DashboardLayout } from "./dashboard-layout"
-export { DashboardHeader } from "./dashboard-header"
 export { DynamicBreadcrumb } from "./dynamic-breadcrumb"
 export { CreateNotebookButton } from "./create-notebook-button"
 export { CreateNoteButton } from "./create-note-button"

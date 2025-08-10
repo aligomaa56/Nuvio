@@ -1,5 +1,6 @@
 "use client"
 
+import { House, Notebook, ScrollText } from 'lucide-react';
 import { usePathname } from "next/navigation"
 import {
   Breadcrumb,
@@ -13,15 +14,18 @@ import {
 export function DynamicBreadcrumb() {
   const pathname = usePathname()
   
-  const isNotebookPage = pathname.includes('/notebook/')
-  const isNotePage = pathname.includes('/note/')
+  const isNotebookPage = pathname.includes('/notebooks/')
+  const isNotePage = pathname.includes('/notes/')
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/dashboard">
-            Dashboard
+            <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <House className="size-4" />
+              Dashboard
+            </div>
           </BreadcrumbLink>
         </BreadcrumbItem>
         
@@ -31,27 +35,34 @@ export function DynamicBreadcrumb() {
             <BreadcrumbItem>
               {isNotePage ? (
                 <BreadcrumbLink href={`/dashboard/notebook/${pathname.split('/')[3]}`}>
-                  Notebook
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                    <Notebook className="size-4" />
+                    Notes
+                  </div>
                 </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage>
-                  Notebook
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                    <Notebook className="size-4" />
+                    Notes
+                  </div>
                 </BreadcrumbPage>
               )}
             </BreadcrumbItem>
           </>
         )}
-        
+
         {isNotePage && (
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                Note
+                <ScrollText className="size-4 text-muted-foreground" />
               </BreadcrumbPage>
             </BreadcrumbItem>
           </>
         )}
+        
       </BreadcrumbList>
     </Breadcrumb>
   )

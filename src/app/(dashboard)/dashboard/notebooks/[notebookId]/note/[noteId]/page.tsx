@@ -2,6 +2,9 @@ import { NoteView } from '@/components/features/dashboard/views/note-view';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { noteMetadata } from '@/app/data/metadata';
+
+export const metadata = noteMetadata;
 
 export default async function NotePage({
   params,

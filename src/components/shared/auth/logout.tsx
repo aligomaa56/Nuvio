@@ -1,7 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { authClient } from '@/lib/auth-client';
+import { LogOut } from 'lucide-react';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
 
 export function Logout() {
@@ -13,8 +14,9 @@ export function Logout() {
   };
 
   return (
-    <Button variant="ghost" size="sm" onClick={handleLogout}>
+    <DropdownMenuItem onClick={handleLogout}>
+      <LogOut />
       Logout
-    </Button>
+    </DropdownMenuItem>
   );
 }

@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
-import { SocialButtons } from '@/components/features/auth/components/social-buttons.client';
-import { TermsLink } from '@/components/features/auth/components/terms-link';
+import { SocialButtons } from '@/components/features/auth';
 
 export function AuthView({
   className,
@@ -14,7 +13,6 @@ export function AuthView({
           <SocialButtons />
         </CardContent>
       </Card>
-      <TermsLink />
     </div>
   );
 }

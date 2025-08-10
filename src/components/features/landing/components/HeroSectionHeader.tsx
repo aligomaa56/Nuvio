@@ -1,0 +1,31 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
+export const HeroSectionHeader = () => {
+  return (
+    <header className="relative z-8 pt-2">
+      <div className="mx-auto max-w-4xl px-6 py-6">
+        <div className="flex items-center justify-between">
+          {/* Logo and Badge */}
+          <div className="flex items-end gap-1">
+            <div className="flex items-center gap-2">
+              <Image src="/logo.svg" alt="Nuvio logo" width={24} height={24} />
+            </div>
+            <span className="bg-foreground/10 text-foreground/50 rounded-full py-0.5 px-2 text-xs font-bold">
+              v1.0
+            </span>
+          </div>
+
+          <Link
+            href="/login"
+            className="hover:bg-foreground dark:hover:border-t-border bg-background group flex w-fit items-center justify-center gap-5 rounded-full border px-3 py-1 shadow-lg shadow-zinc-950/10 transition-all duration-300 dark:border-zinc-400 dark:shadow-zinc-950 hover:scale-105"
+          >
+            <span className="text-foreground text-base font-medium group-hover:text-background">
+              Login
+            </span>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+};
