@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Notebook, Users, Clock, Sparkles } from 'lucide-react';
+import { ArrowRight, Users, Clock, Sparkles } from 'lucide-react';
 
 export default function DashboardView() {
   return (
@@ -146,7 +146,7 @@ export default function DashboardView() {
             </div>
             <h3 className="font-semibold text-lg mb-2">More Products Coming</h3>
             <p className="text-sm text-muted-foreground max-w-xs">
-              We're working on exciting new tools to enhance your creative
+              We&apos;re working on exciting new tools to enhance your creative
               workflow. Stay tuned!
             </p>
           </div>
