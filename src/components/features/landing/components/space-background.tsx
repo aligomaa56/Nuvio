@@ -15,7 +15,6 @@ interface Star {
 export default function SpaceBackground() {
   const [stars, setStars] = useState<Star[]>([]);
 
-  // Generate background stars
   useEffect(() => {
     const newStars: Star[] = [];
     for (let i = 0; i < 100; i++) {
@@ -37,33 +36,34 @@ export default function SpaceBackground() {
       setStars((prev) =>
         prev.map((star) => ({
           ...star,
-          x: (star.x + star.speed + 100) % 100, 
+          x: (star.x + star.speed + 100) % 100,
           y: star.y,
         }))
       );
-    }, 16); 
+    }, 16);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
-      {/* Background stars */}
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            opacity: star.opacity,
-            animationDelay: `${star.twinkle}ms`,
-            animationDuration: '3s',
-          }}
-        />
-      ))}
+    <div className="hidden md:block">
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {stars.map((star) => (
+          <div
+            key={star.id}
+            className="absolute w-1 h-1 bg-foreground rounded-full animate-pulse"
+            style={{
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+              animationDelay: `${star.twinkle}ms`,
+              animationDuration: '3s',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

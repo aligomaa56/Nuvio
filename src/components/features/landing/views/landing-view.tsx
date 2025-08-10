@@ -1,13 +1,5 @@
-import HeroSection from '@/components/features/landing/components/hero-section';
+import { HeroSection } from '@/components/features/landing';
 
-export function LandingView() {
-  return (
-    <div>
-      {/* <HeroHeader /> */}
-      <HeroSection />
-      {/* <Features />
-      <CallToAction />
-      <Footer /> */}
-    </div>
-  );
+export default function LandingView() {
+  return <HeroSection />;
 }
