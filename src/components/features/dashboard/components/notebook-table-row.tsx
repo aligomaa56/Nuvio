@@ -18,7 +18,7 @@ export function NotebookTableRow({ notebook }: NotebookTableRowProps) {
     if ((e.target as HTMLElement).closest('button')) {
       return
     }
-    router.push(`/dashboard/notebook/${notebook.id}`)
+    router.push(`/dashboard/notebooks/${notebook.id}`)
   }
 
   return (
